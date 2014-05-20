@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AutomartModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="AutomartModelStoreContainer">
+          <EntitySet Name="AutoService" EntityType="AutomartModel.Store.AutoService" store:Type="Tables" Schema="customer" />
+          <EntitySet Name="Location" EntityType="AutomartModel.Store.Location" store:Type="Tables" Schema="customer" />
+          <EntitySet Name="RegisteredCustomer" EntityType="AutomartModel.Store.RegisteredCustomer" store:Type="Tables" Schema="customer" />
+          <EntitySet Name="vehicle" EntityType="AutomartModel.Store.vehicle" store:Type="Tables" Schema="customer" />
+          <EntitySet Name="Person" EntityType="AutomartModel.Store.Person" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__Registere__Perso__1DE57479" Association="AutomartModel.Store.FK__Registere__Perso__1DE57479">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="RegisteredCustomer" EntitySet="RegisteredCustomer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__vehicle__PersonK__0F975522" Association="AutomartModel.Store.FK__vehicle__PersonK__0F975522">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="vehicle" EntitySet="vehicle" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AutoService">
+          <Key>
+            <PropertyRef Name="AutoServiceID" />
+          </Key>
+          <Property Name="AutoServiceID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="ServicePrice" Type="money" Nullable="false" />
+          <Property Name="ServiceDescription" Type="xml" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="LocationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LocationName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="LocationAddress" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="LocationCity" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="LocationState" Type="nchar" Nullable="false" MaxLength="2" />
+          <Property Name="LocationZip" Type="nchar" Nullable="false" MaxLength="10" />
+          <Property Name="LocationPhone" Type="nchar" Nullable="false" MaxLength="13" />
+        </EntityType>
+        <EntityType Name="RegisteredCustomer">
+          <Key>
+            <PropertyRef Name="RegisteredCustomerID" />
+          </Key>
+          <Property Name="RegisteredCustomerID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="CustomerPassword" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="PersonKey" Type="int" />
+          <Property Name="CustomerPassCode" Type="int" />
+          <Property Name="CustomerHashedPassword" Type="varbinary" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="vehicle">
+          <Key>
+            <PropertyRef Name="VehicleId" />
+          </Key>
+          <Property Name="VehicleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LicenseNumber" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="VehicleMake" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="VehicleYear" Type="nchar" Nullable="false" MaxLength="4" />
+          <Property Name="PersonKey" Type="int" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Personkey" />
+          </Key>
+          <Property Name="Personkey" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__Registere__Perso__1DE57479">
+          <End Role="Person" Type="AutomartModel.Store.Person" Multiplicity="0..1" />
+          <End Role="RegisteredCustomer" Type="AutomartModel.Store.RegisteredCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Personkey" />
+            </Principal>
+            <Dependent Role="RegisteredCustomer">
+              <PropertyRef Name="PersonKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__vehicle__PersonK__0F975522">
+          <End Role="Person" Type="AutomartModel.Store.Person" Multiplicity="0..1" />
+          <End Role="vehicle" Type="AutomartModel.Store.vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Personkey" />
+            </Principal>
+            <Dependent Role="vehicle">
+              <PropertyRef Name="PersonKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AutomartModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AutomartEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="AutoServices" EntityType="AutomartModel.AutoService" />
+          <EntitySet Name="Locations" EntityType="AutomartModel.Location" />
+          <EntitySet Name="RegisteredCustomers" EntityType="AutomartModel.RegisteredCustomer" />
+          <EntitySet Name="vehicles" EntityType="AutomartModel.vehicle" />
+          <EntitySet Name="People" EntityType="AutomartModel.Person" />
+          <AssociationSet Name="FK__Registere__Perso__1DE57479" Association="AutomartModel.FK__Registere__Perso__1DE57479">
+            <End Role="Person" EntitySet="People" />
+            <End Role="RegisteredCustomer" EntitySet="RegisteredCustomers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__vehicle__PersonK__0F975522" Association="AutomartModel.FK__vehicle__PersonK__0F975522">
+            <End Role="Person" EntitySet="People" />
+            <End Role="vehicle" EntitySet="vehicles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AutoService">
+          <Key>
+            <PropertyRef Name="AutoServiceID" />
+          </Key>
+          <Property Name="AutoServiceID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="ServicePrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ServiceDescription" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="LocationID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="LocationAddress" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="LocationCity" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="LocationState" Type="String" Nullable="false" MaxLength="2" Unicode="true" FixedLength="true" />
+          <Property Name="LocationZip" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="LocationPhone" Type="String" Nullable="false" MaxLength="13" Unicode="true" FixedLength="true" />
+        </EntityType>
+        <EntityType Name="RegisteredCustomer">
+          <Key>
+            <PropertyRef Name="RegisteredCustomerID" />
+          </Key>
+          <Property Name="RegisteredCustomerID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="CustomerPassword" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="PersonKey" Type="Int32" />
+          <Property Name="CustomerPassCode" Type="Int32" />
+          <Property Name="CustomerHashedPassword" Type="Binary" MaxLength="500" FixedLength="false" />
+          <NavigationProperty Name="Person" Relationship="AutomartModel.FK__Registere__Perso__1DE57479" FromRole="RegisteredCustomer" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="vehicle">
+          <Key>
+            <PropertyRef Name="VehicleId" />
+          </Key>
+          <Property Name="VehicleId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="LicenseNumber" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="VehicleMake" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="VehicleYear" Type="String" Nullable="false" MaxLength="4" Unicode="true" FixedLength="true" />
+          <Property Name="PersonKey" Type="Int32" />
+          <NavigationProperty Name="Person" Relationship="AutomartModel.FK__vehicle__PersonK__0F975522" FromRole="vehicle" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Personkey" />
+          </Key>
+          <Property Name="Personkey" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="FirstName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="RegisteredCustomers" Relationship="AutomartModel.FK__Registere__Perso__1DE57479" FromRole="Person" ToRole="RegisteredCustomer" />
+          <NavigationProperty Name="vehicles" Relationship="AutomartModel.FK__vehicle__PersonK__0F975522" FromRole="Person" ToRole="vehicle" />
+        </EntityType>
+        <Association Name="FK__Registere__Perso__1DE57479">
+          <End Role="Person" Type="AutomartModel.Person" Multiplicity="0..1" />
+          <End Role="RegisteredCustomer" Type="AutomartModel.RegisteredCustomer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Personkey" />
+            </Principal>
+            <Dependent Role="RegisteredCustomer">
+              <PropertyRef Name="PersonKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__vehicle__PersonK__0F975522">
+          <End Role="Person" Type="AutomartModel.Person" Multiplicity="0..1" />
+          <End Role="vehicle" Type="AutomartModel.vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Personkey" />
+            </Principal>
+            <Dependent Role="vehicle">
+              <PropertyRef Name="PersonKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AutomartModelStoreContainer" CdmEntityContainer="AutomartEntities">
+          <EntitySetMapping Name="AutoServices">
+            <EntityTypeMapping TypeName="AutomartModel.AutoService">
+              <MappingFragment StoreEntitySet="AutoService">
+                <ScalarProperty Name="AutoServiceID" ColumnName="AutoServiceID" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ServicePrice" ColumnName="ServicePrice" />
+                <ScalarProperty Name="ServiceDescription" ColumnName="ServiceDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="AutomartModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="LocationAddress" ColumnName="LocationAddress" />
+                <ScalarProperty Name="LocationCity" ColumnName="LocationCity" />
+                <ScalarProperty Name="LocationState" ColumnName="LocationState" />
+                <ScalarProperty Name="LocationZip" ColumnName="LocationZip" />
+                <ScalarProperty Name="LocationPhone" ColumnName="LocationPhone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegisteredCustomers">
+            <EntityTypeMapping TypeName="AutomartModel.RegisteredCustomer">
+              <MappingFragment StoreEntitySet="RegisteredCustomer">
+                <ScalarProperty Name="RegisteredCustomerID" ColumnName="RegisteredCustomerID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CustomerPassword" ColumnName="CustomerPassword" />
+                <ScalarProperty Name="PersonKey" ColumnName="PersonKey" />
+                <ScalarProperty Name="CustomerPassCode" ColumnName="CustomerPassCode" />
+                <ScalarProperty Name="CustomerHashedPassword" ColumnName="CustomerHashedPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vehicles">
+            <EntityTypeMapping TypeName="AutomartModel.vehicle">
+              <MappingFragment StoreEntitySet="vehicle">
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="LicenseNumber" ColumnName="LicenseNumber" />
+                <ScalarProperty Name="VehicleMake" ColumnName="VehicleMake" />
+                <ScalarProperty Name="VehicleYear" ColumnName="VehicleYear" />
+                <ScalarProperty Name="PersonKey" ColumnName="PersonKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="AutomartModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="Personkey" ColumnName="Personkey" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
