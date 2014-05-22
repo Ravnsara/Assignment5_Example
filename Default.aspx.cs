@@ -11,4 +11,18 @@ public partial class _Default : System.Web.UI.Page
     {
 
     }
+    protected void btnLogin_Click(object sender, EventArgs e)
+    {
+        Login login = new Login(txtUserName.Text, txtPassword.Text);
+        int personKey = login.ValidateLogin();
+        if (personKey != 0)
+        {
+            Session["person"] = personKey;
+            Response.Redirect("Default3.aspx");
+        }
+        else
+        {
+            lblError.Text = "Invalid Login";
+        }
+    }
 }
